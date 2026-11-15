@@ -1,3 +1,4 @@
+#![allow(non_snake_case)]
 //! Snowflake Virtual Warehouse Router & Credit Calculator for SigmaOS
 
 #[derive(Debug, Clone, Copy, PartialEq)]
