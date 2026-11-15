@@ -1,0 +1,8 @@
+[package]
+name = "SigmaOS-tools-snowflake"
+version = "0.1.0"
+edition = "2021"
+description = "Snowflake virtual warehouse query router and credit calculator"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
