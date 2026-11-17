@@ -3,7 +3,7 @@ name = "SigmaOS-tools-snowflake"
 tier = 2
 stability = "scaffold"
 language = "rust"
-description = "tools-snowflake component"
+description = "tools snowflake component"
 upstream = []
 
 [contract]
