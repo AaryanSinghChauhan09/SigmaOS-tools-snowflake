@@ -1,3 +1,4 @@
+#![forbid(unsafe_code)]
 #![allow(non_snake_case)]
 //! Snowflake Virtual Warehouse Router & Credit Calculator for SigmaOS
 
@@ -90,5 +91,39 @@ mod tests {
         assert_eq!(assigned.name, "COMPUTE_WH_2");
         assert_eq!(assigned.active_queries, 2);
         assert!((credits - 1.0).abs() < 1e-4); // 2 credits/hr * 0.5 hr = 1.0
+    }
+}
+
+
+#[cfg(test)]
+mod snowflake_extra_tests {
+    use super::*;
+
+    #[test]
+    fn test_snowflake_empty_router_returns_none_aaa() {
+        // Arrange
+        let mut router = SnowflakeRouter::new();
+        // Act
+        let wh = router.route_query();
+        // Assert
+        assert!(wh.is_none());
+    }
+
+    #[test]
+    fn test_snowflake_credits_per_hour_scaling_aaa() {
+        // Arrange & Act & Assert
+        assert_eq!(WarehouseSize::XSmall.credits_per_hour(), 1.0);
+        assert_eq!(WarehouseSize::Small.credits_per_hour(), 2.0);
+        assert_eq!(WarehouseSize::Medium.credits_per_hour(), 4.0);
+        assert_eq!(WarehouseSize::Large.credits_per_hour(), 8.0);
+        assert_eq!(WarehouseSize::XLarge.credits_per_hour(), 16.0);
+    }
+
+    #[test]
+    fn test_snowflake_zero_second_query_cost_aaa() {
+        // Arrange & Act
+        let cost = SnowflakeRouter::estimate_query_cost_credits(WarehouseSize::Large, 0.0);
+        // Assert
+        assert_eq!(cost, 0.0);
     }
 }
